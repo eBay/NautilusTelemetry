@@ -8,7 +8,6 @@
 import Foundation
 import XCTest
 import OSLog
-import MetricKit
 import os
 
 @testable import NautilusTelemetry
@@ -128,7 +127,7 @@ final class TraceExporterTests: XCTestCase {
 		
 		var logRecords = [OTLP.V1LogRecord]()
 		
-		if #available(iOS 15.0, macOS 12.0, *) {
+		if #available(iOS 15.0, macOS 12.0, tvOS 15.0, *) {
 			
 			let logger = Logger(subsystem: "OTLPExporterTests", category: "testOTLPExporterLogs")
 			

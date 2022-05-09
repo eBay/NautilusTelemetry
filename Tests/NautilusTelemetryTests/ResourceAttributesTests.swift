@@ -36,6 +36,8 @@ final class ResourceAttributesTests: XCTestCase {
 		
 		#if os(iOS)
 			XCTAssertGreaterThanOrEqual(firstComponent, 13)
+		#elseif os(watchOS)
+			XCTAssertGreaterThanOrEqual(firstComponent, 8)
 		#else
 			XCTAssertGreaterThanOrEqual(firstComponent, 11)
 		#endif

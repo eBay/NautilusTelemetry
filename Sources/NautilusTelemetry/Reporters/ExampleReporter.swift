@@ -40,7 +40,7 @@ public class ExampleReporter: Reporter {
 	}
 	
 	public func subscribeToLifecycleEvents() {
-#if canImport(UIKit)
+#if canImport(UIKit) && os(iOS)
 		let backgroundNotificationName = UIApplication.shared.supportsMultipleScenes ? UIScene.didEnterBackgroundNotification : UIApplication.didEnterBackgroundNotification
 		NotificationCenter.default.addObserver(forName: backgroundNotificationName, object: nil, queue: OperationQueue.main) { _ in self.didEnterBackground() }
 #endif

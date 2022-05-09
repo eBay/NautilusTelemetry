@@ -10,7 +10,7 @@ import OSLog
 
 /// Exporter utilities for Logs models
 extension Exporter {
-	@available(iOS 15.0, *)
+	@available(iOS 15.0, tvOS 15.0, *)
 	/// Converts OSLog levels to OTLP severity
 	/// - Parameter level: OSLogEntryLog.Level
 	/// - Returns: level converted to OTLP format
