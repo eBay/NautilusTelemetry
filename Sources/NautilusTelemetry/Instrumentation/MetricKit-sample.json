@@ -1,0 +1,96 @@
+{
+  "locationActivityMetrics" : {
+    "cumulativeBestAccuracyForNavigationTime" : "0 sec",
+    "cumulativeBestAccuracyTime" : "0 sec",
+    "cumulativeHundredMetersAccuracyTime" : "0 sec",
+    "cumulativeNearestTenMetersAccuracyTime" : "0 sec",
+    "cumulativeKilometerAccuracyTime" : "0 sec",
+    "cumulativeThreeKilometersAccuracyTime" : "0 sec"
+  },
+  "cellularConditionMetrics" : {
+    "cellConditionTime" : {
+      "histogramNumBuckets" : 4,
+      "histogramValue" : {
+        "3" : {
+          "bucketCount" : 30,
+          "bucketStart" : "4 bars",
+          "bucketEnd" : "4 bars"
+        },
+        "1" : {
+          "bucketCount" : 1,
+          "bucketStart" : "2 bars",
+          "bucketEnd" : "2 bars"
+        },
+        "2" : {
+          "bucketCount" : 67,
+          "bucketStart" : "3 bars",
+          "bucketEnd" : "3 bars"
+        },
+        "0" : {
+          "bucketCount" : 2,
+          "bucketStart" : "0 bars",
+          "bucketEnd" : "0 bars"
+        }
+      }
+    }
+  },
+  "metaData" : {
+    "appBuildVersion" : "2647",
+    "osVersion" : "iPhone OS 15.0.1 (19A348)",
+    "regionFormat" : "US",
+    "platformArchitecture" : "arm64e",
+    "bundleIdentifier" : "com.ebay.iphone",
+    "deviceType" : "iPhone14,2"
+  },
+  "memoryMetrics" : {
+    "peakMemoryUsage" : "44,977 kB",
+    "averageSuspendedMemory" : {
+      "averageValue" : "36,513 kB",
+      "standardDeviation" : 0,
+      "sampleCount" : 1
+    }
+  },
+  "gpuMetrics" : {
+    "cumulativeGPUTime" : "0 sec"
+  },
+  "applicationExitMetrics" : {
+    "backgroundExitData" : {
+
+    },
+    "foregroundExitData" : {
+
+    }
+  },
+  "displayMetrics" : {
+    "averagePixelLuminance" : {
+      "averageValue" : "13 apl",
+      "standardDeviation" : -1,
+      "sampleCount" : 86654
+    }
+  },
+  "signpostMetrics" : [
+
+  ],
+  "cpuMetrics" : {
+    "cumulativeCPUTime" : "6 sec",
+    "cumulativeCPUInstructions" : "32,291,490 kiloinstructions"
+  },
+  "networkTransferMetrics" : {
+    "cumulativeCellularDownload" : "0 kB",
+    "cumulativeWifiDownload" : "1,300 kB",
+    "cumulativeCellularUpload" : "0 kB",
+    "cumulativeWifiUpload" : "210 kB"
+  },
+  "diskIOMetrics" : {
+    "cumulativeLogicalWrites" : "6,772 kB"
+  },
+  "applicationTimeMetrics" : {
+    "cumulativeForegroundTime" : "361 sec",
+    "cumulativeBackgroundTime" : "50 sec",
+    "cumulativeBackgroundAudioTime" : "0 sec",
+    "cumulativeBackgroundLocationTime" : "0 sec"
+  },
+  "timeStampEnd" : "2021-10-13 07:00:00 +0000",
+  "appVersion" : "6.33.0",
+  "timeStampBegin" : "2021-10-12 07:00:00 +0000"
+}

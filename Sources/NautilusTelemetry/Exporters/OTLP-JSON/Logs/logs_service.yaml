@@ -1,0 +1,294 @@
+openapi: 3.0.1
+info:
+  title: opentelemetry/proto/collector/logs/v1/logs_service.proto
+  version: version not set
+servers:
+- url: /
+paths:
+  /v1/logs:
+    post:
+      tags:
+      - LogsService
+      summary: |-
+        For performance reasons, it is recommended to keep this RPC
+        alive for the entire life of the application.
+      operationId: LogsService_Export
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1ExportLogsServiceRequest'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1ExportLogsServiceResponse'
+        '429':
+          description: Too Many Requests
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/runtimeError'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    protobufAny:
+      type: object
+      properties:
+        type_url:
+          type: string
+        value:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          format: byte
+    runtimeError:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
+    v1AnyValue:
+      type: object
+      properties:
+        string_value:
+          type: string
+        bool_value:
+          type: boolean
+        int_value:
+          type: string
+          format: int64
+        double_value:
+          type: number
+          format: double
+        array_value:
+          $ref: '#/components/schemas/v1ArrayValue'
+        kvlist_value:
+          $ref: '#/components/schemas/v1KeyValueList'
+        bytes_value:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          format: byte
+      description: |-
+        AnyValue is used to represent any type of attribute value. AnyValue may contain a
+        primitive value such as a string or integer or it may contain an arbitrary nested
+        object containing arrays, key-value lists and primitives.
+    v1ArrayValue:
+      type: object
+      properties:
+        values:
+          type: array
+          description: Array of values. The array may be empty (contain 0 elements).
+          items:
+            $ref: '#/components/schemas/v1AnyValue'
+      description: |-
+        ArrayValue is a list of AnyValue messages. We need ArrayValue as a message
+        since oneof in AnyValue does not allow repeated fields.
+    v1ExportLogsServiceRequest:
+      type: object
+      properties:
+        resource_logs:
+          type: array
+          description: |-
+            An array of ResourceLogs.
+            For data coming from a single resource this array will typically contain one
+            element. Intermediary nodes (such as OpenTelemetry Collector) that receive
+            data from multiple origins typically batch the data before forwarding further and
+            in that case this array will contain multiple elements.
+          items:
+            $ref: '#/components/schemas/v1ResourceLogs'
+    v1ExportLogsServiceResponse:
+      type: object
+    v1InstrumentationLibrary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: An empty instrumentation library name means the name is unknown.
+        version:
+          type: string
+      description: |-
+        InstrumentationLibrary is a message representing the instrumentation library information
+        such as the fully qualified name and version.
+    v1InstrumentationLibraryLogs:
+      type: object
+      properties:
+        instrumentation_library:
+          $ref: '#/components/schemas/v1InstrumentationLibrary'
+        logs:
+          type: array
+          description: A list of log records.
+          items:
+            $ref: '#/components/schemas/v1LogRecord'
+        schema_url:
+          type: string
+          description: This schema_url applies to all logs in the "logs" field.
+      description: A collection of Logs produced by an InstrumentationLibrary.
+    v1KeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          $ref: '#/components/schemas/v1AnyValue'
+      description: |-
+        KeyValue is a key-value pair that is used to store Span attributes, Link
+        attributes, etc.
+    v1KeyValueList:
+      type: object
+      properties:
+        values:
+          type: array
+          description: |-
+            A collection of key/value pairs of key-value pairs. The list may be empty (may
+            contain 0 elements).
+          items:
+            $ref: '#/components/schemas/v1KeyValue'
+      description: |-
+        KeyValueList is a list of KeyValue messages. We need KeyValueList as a message
+        since `oneof` in AnyValue does not allow repeated fields. Everywhere else where we need
+        a list of KeyValue messages (e.g. in Span) we use `repeated KeyValue` directly to
+        avoid unnecessary extra wrapping (which slows down the protocol). The 2 approaches
+        are semantically equivalent.
+    v1LogRecord:
+      title: |-
+        A log record according to OpenTelemetry Log Data Model:
+        https://github.com/open-telemetry/oteps/blob/main/text/logs/0097-log-data-model.md
+      type: object
+      properties:
+        time_unix_nano:
+          type: string
+          description: |-
+            time_unix_nano is the time when the event occurred.
+            Value is UNIX Epoch time in nanoseconds since 00:00:00 UTC on 1 January 1970.
+            Value of 0 indicates unknown or missing timestamp.
+          format: uint64
+        severity_number:
+          $ref: '#/components/schemas/v1SeverityNumber'
+        severity_text:
+          type: string
+          description: |-
+            The severity text (also known as log level). The original string representation as
+            it is known at the source. [Optional].
+        name:
+          type: string
+          description: |-
+            Short event identifier that does not contain varying parts. Name describes
+            what happened (e.g. "ProcessStarted"). Recommended to be no longer than 50
+            characters. Not guaranteed to be unique in any way. [Optional].
+        body:
+          $ref: '#/components/schemas/v1AnyValue'
+        attributes:
+          type: array
+          description: Additional attributes that describe the specific event occurrence.
+            [Optional].
+          items:
+            $ref: '#/components/schemas/v1KeyValue'
+        dropped_attributes_count:
+          type: integer
+          format: int64
+        flags:
+          type: integer
+          description: |-
+            Flags, a bit field. 8 least significant bits are the trace flags as
+            defined in W3C Trace Context specification. 24 most significant bits are reserved
+            and must be set to 0. Readers must not assume that 24 most significant bits
+            will be zero and must correctly mask the bits when reading 8-bit trace flag (use
+            flags & TRACE_FLAGS_MASK). [Optional].
+          format: int64
+        trace_id:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          description: |-
+            A unique identifier for a trace. All logs from the same trace share
+            the same `trace_id`. The ID is a 16-byte array. An ID with all zeroes
+            is considered invalid. Can be set for logs that are part of request processing
+            and have an assigned trace id. [Optional].
+          format: byte
+        span_id:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          description: |-
+            A unique identifier for a span within a trace, assigned when the span
+            is created. The ID is an 8-byte array. An ID with all zeroes is considered
+            invalid. Can be set for logs that are part of a particular processing span.
+            If span_id is present trace_id SHOULD be also present. [Optional].
+          format: byte
+    v1Resource:
+      type: object
+      properties:
+        attributes:
+          type: array
+          description: Set of labels that describe the resource.
+          items:
+            $ref: '#/components/schemas/v1KeyValue'
+        dropped_attributes_count:
+          type: integer
+          description: |-
+            dropped_attributes_count is the number of dropped attributes. If the value is 0, then
+            no attributes were dropped.
+          format: int64
+      description: Resource information.
+    v1ResourceLogs:
+      type: object
+      properties:
+        resource:
+          $ref: '#/components/schemas/v1Resource'
+        instrumentation_library_logs:
+          type: array
+          description: A list of InstrumentationLibraryLogs that originate from a
+            resource.
+          items:
+            $ref: '#/components/schemas/v1InstrumentationLibraryLogs'
+        schema_url:
+          type: string
+          description: |-
+            This schema_url applies to the data in the "resource" field. It does not apply
+            to the data in the "instrumentation_library_logs" field which have their own
+            schema_url field.
+      description: A collection of InstrumentationLibraryLogs from a Resource.
+    v1SeverityNumber:
+      type: string
+      description: |-
+        Possible values for LogRecord.SeverityNumber.
+
+         - SEVERITY_NUMBER_UNSPECIFIED: UNSPECIFIED is the default SeverityNumber, it MUST NOT be used.
+      default: SEVERITY_NUMBER_UNSPECIFIED
+      enum:
+      - SEVERITY_NUMBER_UNSPECIFIED
+      - SEVERITY_NUMBER_TRACE
+      - SEVERITY_NUMBER_TRACE2
+      - SEVERITY_NUMBER_TRACE3
+      - SEVERITY_NUMBER_TRACE4
+      - SEVERITY_NUMBER_DEBUG
+      - SEVERITY_NUMBER_DEBUG2
+      - SEVERITY_NUMBER_DEBUG3
+      - SEVERITY_NUMBER_DEBUG4
+      - SEVERITY_NUMBER_INFO
+      - SEVERITY_NUMBER_INFO2
+      - SEVERITY_NUMBER_INFO3
+      - SEVERITY_NUMBER_INFO4
+      - SEVERITY_NUMBER_WARN
+      - SEVERITY_NUMBER_WARN2
+      - SEVERITY_NUMBER_WARN3
+      - SEVERITY_NUMBER_WARN4
+      - SEVERITY_NUMBER_ERROR
+      - SEVERITY_NUMBER_ERROR2
+      - SEVERITY_NUMBER_ERROR3
+      - SEVERITY_NUMBER_ERROR4
+      - SEVERITY_NUMBER_FATAL
+      - SEVERITY_NUMBER_FATAL2
+      - SEVERITY_NUMBER_FATAL3
+      - SEVERITY_NUMBER_FATAL4
