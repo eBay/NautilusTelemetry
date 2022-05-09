@@ -34,7 +34,7 @@ public struct ResourceAttributes {
 		let bundleIdentifier = bundle.bundleIdentifier ?? placeholder
 		let applicationVersion = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? placeholder
 
-		#if canImport(UIKit)
+		#if canImport(UIKit) && os(iOS)
 		let vendorIdentifier = UIDevice.current.identifierForVendor?.uuidString ?? placeholder
 		#else
 		let vendorIdentifier = placeholder

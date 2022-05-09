@@ -6,9 +6,10 @@
 //
 
 import Foundation
+
+#if canImport(MetricKit) && os(iOS)
 import MetricKit
 
-#if os(iOS)
 public final class MetricKitInstrument: NSObject, MXMetricManagerSubscriber {
 	
 	// https://developer.apple.com/documentation/metrickit/mxmetricmanager
@@ -143,5 +144,5 @@ public final class MetricKitInstrument: NSObject, MXMetricManagerSubscriber {
 		}
 	}
 }
-#endif
+#endif // canImport
 
