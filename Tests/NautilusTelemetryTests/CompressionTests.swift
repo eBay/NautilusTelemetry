@@ -37,6 +37,13 @@ final class CompressionTests: XCTestCase {
 			try XCTSkipIf(true, "Unsupported iOS version")
 		}
 #endif
+		
+#if os(macOS)
+		if !ProcessInfo.processInfo.isOperatingSystemAtLeast(.init(majorVersion: 12, minorVersion: 0, patchVersion: 0)) {
+			// workaround -- @available doesn't cause skip
+			try XCTSkipIf(true, "Unsupported macOS version")
+		}
+#endif
 	}
 	
 	func testBrotli() throws {
