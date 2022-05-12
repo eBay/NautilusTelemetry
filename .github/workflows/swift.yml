@@ -19,4 +19,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build and run tests for the matrix
-      run: xcodebuild ${{ matrix.xcodebuild-command }} -scheme NautilusTelemetry -destination ${{ matrix.xcodebuild-destination }}
+      run: xcodebuild ${{ matrix.xcodebuild-command }} -scheme NautilusTelemetry -destination "${{ matrix.xcodebuild-destination }}"
