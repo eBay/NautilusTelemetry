@@ -33,7 +33,7 @@ public struct HardwareDetails {
 			isOnMac = true
 		}
 		
-		if #available(iOS 14, *) {
+		if #available(iOS 14, tvOS 14, *) {
 			if processInfo.isiOSAppOnMac {
 				isOnMac = true
 			}
