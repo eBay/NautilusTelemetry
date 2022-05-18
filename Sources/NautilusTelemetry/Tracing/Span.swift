@@ -19,7 +19,6 @@ public enum SpanKind {
 }
 
 /// Pared down version of the spec
-/// https://ebay.stoplight.io/docs/opentelemetry/c2NoOjIxODQ2NjEz-v1-span
 public final class Span: Identifiable {
 	let name: String
 	let kind: SpanKind
@@ -130,9 +129,7 @@ public final class Span: Identifiable {
 		
 		// TBD: figure out Swift symbol demangling?
 		// This doesn't seem to exist yet: https://forums.swift.org/t/demangle-function/25416
-		// And I don't like the looks of this:
-		// https://gitlab.nexustls.com/libraries/nats-swift/-/blob/8555adde67762bf82d20eddf20e3d6df7b0660a9/Sources/Nats/Utilitites/Debugging/Demangler.swift
-		// This looks better, but is ≈9K lines: https://github.com/oozoofrog/SwiftDemangle
+		// This looks OK, but is ≈9K lines: https://github.com/oozoofrog/SwiftDemangle
 		let callStackLimit = 20
 		let callstackSymbols = Thread.callStackSymbols.prefix(callStackLimit)
 		let callstack = callstackSymbols.joined(separator: "\n")
@@ -165,7 +162,6 @@ public final class Span: Identifiable {
 		}
 	}
 	
-	/// https://ebay.stoplight.io/docs/opentelemetry/c2NoOjIxODQ2NjE0-v1-status
 	public enum Status: Equatable {
 		case unset
 		case ok
